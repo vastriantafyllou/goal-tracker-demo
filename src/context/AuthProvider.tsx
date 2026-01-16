@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import type {LoginFields} from "@/schemas/login.ts";
-import {login} from "@/services/api.login.ts";
+import {AuthAPI} from "@/apiRouter/apiRouter.ts";
 import {deleteCookie, getCookie, setCookie} from "@/utils/cookies.ts";
 import {jwtDecode} from "jwt-decode";
 import {AuthContext} from "@/context/AuthContext.ts";
@@ -58,7 +58,7 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
 
   // Login user and store JWT token in cookie
   const loginUser = async (fields: LoginFields) => {
-    const res = await login(fields);
+    const res = await AuthAPI.login(fields);
 
     // Store token in cookie (expires in 1 day)
     setCookie("access_token", res.token, {
