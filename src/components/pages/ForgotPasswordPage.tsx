@@ -9,10 +9,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Link, useNavigate } from "react-router";
-import {
-  sendRecoveryEmail,
-  PasswordRecoveryError,
-} from "@/services/api.passwordRecovery.ts";
+import { PasswordRecoveryAPI } from "@/apiRouter/apiRouter.ts";
+import { PasswordRecoveryError } from "@/services/api.passwordRecovery.ts";
 import { Mail, KeyRound, ArrowLeft, CheckCircle2, Clock, Shield } from "lucide-react";
 import { useState, useEffect, useRef, useCallback } from "react";
 import Recaptcha, { type RecaptchaRef } from "@/components/Recaptcha.tsx";
@@ -61,7 +59,7 @@ export default function ForgotPasswordPage() {
         }
       }
 
-      await sendRecoveryEmail(data.email, token);
+      await PasswordRecoveryAPI.sendRecoveryEmail(data.email, token);
 
       setIsSuccess(true);
       toast.success("Email sent! Check your inbox.");
@@ -146,7 +144,7 @@ export default function ForgotPasswordPage() {
                   className="w-full bg-gradient-to-r from-blue-600 to-sky-600 hover:from-blue-700 hover:to-sky-700"
                 >
                   <ArrowLeft className="w-4 h-4 mr-2" />
-                  Back to Login
+                  Back to Sign in
                 </Button>
               </div>
             </div>
@@ -257,18 +255,18 @@ export default function ForgotPasswordPage() {
               className="text-sm text-blue-600 dark:text-blue-400 hover:underline font-medium inline-flex items-center gap-1"
             >
               <ArrowLeft className="w-4 h-4" />
-              Back to Login
+              Back to Sign in
             </Link>
           </div>
 
           <div className="mt-6 pt-6 border-t border-slate-200 dark:border-slate-700">
-            <p className="text-xs text-center text-slate-500 dark:text-slate-400">
+            <p className="text-sm text-center text-slate-500 dark:text-slate-400">
               Don't have an account?{" "}
               <Link
                 to="/register"
                 className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
               >
-                Sign up
+                Sign up!
               </Link>
             </p>
           </div>

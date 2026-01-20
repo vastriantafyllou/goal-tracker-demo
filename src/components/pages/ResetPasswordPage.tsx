@@ -9,11 +9,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useNavigate, useSearchParams } from "react-router";
-import {
-  validateResetToken,
-  resetPassword,
-  PasswordRecoveryError,
-} from "@/services/api.passwordRecovery.ts";
+import { PasswordRecoveryAPI } from "@/apiRouter/apiRouter.ts";
+import { PasswordRecoveryError } from "@/services/api.passwordRecovery.ts";
 import {
   Lock,
   Eye,
@@ -60,7 +57,7 @@ export default function ResetPasswordPage() {
       }
 
       try {
-        const result = await validateResetToken(token);
+        const result = await PasswordRecoveryAPI.validateResetToken(token);
         
         if (result.isValid) {
           setTokenStatus("valid");
@@ -95,7 +92,7 @@ export default function ResetPasswordPage() {
     }
 
     try {
-      await resetPassword(token, data.newPassword);
+      await PasswordRecoveryAPI.resetPassword(token, data.newPassword);
       
       setIsSuccess(true);
       toast.success("Password reset successful!");
@@ -176,7 +173,7 @@ export default function ResetPasswordPage() {
                   variant="outline"
                   className="w-full"
                 >
-                  Back to Login
+                  Back to Sign in
                 </Button>
               </div>
             </div>
@@ -361,7 +358,7 @@ export default function ResetPasswordPage() {
                 onClick={() => navigate("/login")}
                 className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
               >
-                Back to Login
+                Back to Sign in
               </button>
             </p>
           </div>
