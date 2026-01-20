@@ -2,6 +2,10 @@ import type { Goal } from "@/schemas/goal.ts";
 import type { Category } from "@/schemas/category.ts";
 import type { UserReadOnly } from "@/schemas/users.ts";
 
+export interface DemoUser extends UserReadOnly {
+  password: string;
+}
+
 export let DEMO_GOALS: Goal[] = [
   {
     id: 1,
@@ -63,7 +67,7 @@ export let DEMO_CATEGORIES: Category[] = [
   { id: 5, name: "Education", goalCount: 0 },
 ];
 
-export let DEMO_USERS: UserReadOnly[] = [
+export let DEMO_USERS: DemoUser[] = [
   {
     id: 1,
     username: "demo-user",
@@ -71,6 +75,7 @@ export let DEMO_USERS: UserReadOnly[] = [
     firstname: "Demo",
     lastname: "User",
     userRole: "User",
+    password: "Demo123!",
   },
   {
     id: 2,
@@ -79,14 +84,16 @@ export let DEMO_USERS: UserReadOnly[] = [
     firstname: "Demo",
     lastname: "Admin",
     userRole: "Admin",
+    password: "Demo123!",
   },
   {
     id: 3,
-    username: "demo-superadmin",
+    username: "superadmin",
     email: "superadmin@demo.com",
-    firstname: "Demo",
-    lastname: "SuperAdmin",
+    firstname: "Super",
+    lastname: "Admin",
     userRole: "SuperAdmin",
+    password: "SuperAdmin123!",
   },
   {
     id: 4,
@@ -95,6 +102,7 @@ export let DEMO_USERS: UserReadOnly[] = [
     firstname: "John",
     lastname: "Doe",
     userRole: "User",
+    password: "Demo123!",
   },
   {
     id: 5,
@@ -103,8 +111,14 @@ export let DEMO_USERS: UserReadOnly[] = [
     firstname: "Jane",
     lastname: "Smith",
     userRole: "User",
+    password: "Demo123!",
   },
 ];
+
+export const SUPERADMIN_CREDENTIALS = {
+  username: "superadmin",
+  password: "SuperAdmin123!",
+};
 
 let nextGoalId = 6;
 let nextCategoryId = 6;

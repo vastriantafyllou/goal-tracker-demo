@@ -1,5 +1,5 @@
 import type { UserReadOnly, UserUpdateFields, PaginatedResult, UserSignupFields } from "@/schemas/users.ts";
-import { DEMO_USERS } from "./demoData.ts";
+import { DEMO_USERS, type DemoUser } from "./demoData.ts";
 
 const delay = () => new Promise(resolve => setTimeout(resolve, 300));
 
@@ -64,26 +64,28 @@ export async function getUserByUsername(username: string): Promise<UserReadOnly>
 export async function register(userData: UserSignupFields): Promise<UserReadOnly> {
   await delay();
   
-  if (DEMO_USERS.find(u => u.username === userData.username)) {
+  if (DEMO_USERS.find(u => u.username.toLowerCase() === userData.username.toLowerCase())) {
     throw new Error("Username already exists");
   }
   
-  if (DEMO_USERS.find(u => u.email === userData.email)) {
+  if (DEMO_USERS.find(u => u.email.toLowerCase() === userData.email.toLowerCase())) {
     throw new Error("Email already exists");
   }
   
-  const newUser: UserReadOnly = {
+  const newUser: DemoUser = {
     id: Math.max(...DEMO_USERS.map(u => u.id), 0) + 1,
     username: userData.username,
     email: userData.email,
     firstname: userData.firstname,
     lastname: userData.lastname,
     userRole: "User",
+    password: userData.password,
   };
   
   DEMO_USERS.push(newUser);
   
-  return { ...newUser };
+  const { password: _, ...userWithoutPassword } = newUser;
+  return userWithoutPassword;
 }
 
 export async function updateUser(id: number, userData: UserUpdateFields): Promise<UserReadOnly> {
