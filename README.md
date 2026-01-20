@@ -1,14 +1,19 @@
-# 🎯 GoalTracker
+# 🎯 GoalTracker Demo
 
-> A modern goal management application built with React, TypeScript, and TailwindCSS.
+> A fully functional demo of the GoalTracker application that runs 100% in the browser — no backend required.
 
+[![Demo Mode](https://img.shields.io/badge/Mode-Demo-orange?logo=rocket)](https://adorable-naiad-bbc223.netlify.app/)
 [![React](https://img.shields.io/badge/React-19.2-61DAFB?logo=react)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-7.2-646CFF?logo=vite)](https://vite.dev/)
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4.1-06B6D4?logo=tailwindcss)](https://tailwindcss.com/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-Track personal and professional goals with role-based access control, category organization, and a responsive interface.
+This is the **demo version** of [GoalTracker](https://github.com/vastriantafyllou/goal-tracker-react), showcasing all features with in-memory data storage. Perfect for testing, evaluation, and demonstration purposes.
+
+**👉 Live Demo:** https://adorable-naiad-bbc223.netlify.app/
+
+---
 
 ## 📸 Screenshots
 
@@ -17,24 +22,54 @@ Track personal and professional goals with role-based access control, category o
 [Register Page - Dark theme](./docs/screenshots/register-dark.png) <br>
 [Goals Page - Dark theme](./docs/screenshots/goals-dark.png) <br>
 
-## 🎬 Demo
-
-[//]: # ([Demo]&#40;./docs/demo.gif&#41;)
-
-**👉 Live Demo:** https://adorable-naiad-bbc223.netlify.app/
-
 ---
 
 ## ✨ Features
 
+### Full Application Features
 - **Goal Management** - Create, edit, track, and delete goals with categories and due dates
-- **JWT Authentication** - Secure login/registration with role-based access control
-- **User Roles** - User, Admin, and SuperAdmin with different permissions
 - **Category System** - Organize goals with custom categories
+- **User Authentication** - Login, registration, and password recovery simulation
+- **User Roles** - User, Admin, and SuperAdmin with different permissions
+- **User Management** - Admin/SuperAdmin can view, edit, promote/demote users
 - **Dark/Light Theme** - Automatic system detection with manual toggle
 - **Responsive Design** - Mobile-first, works on all devices
 - **Form Validation** - Real-time validation with Zod and React Hook Form
 - **Toast Notifications** - User-friendly feedback messages
+
+### Demo Mode Specifics
+- **No Backend Required** - Runs entirely in the browser
+- **Pre-loaded Data** - Sample goals, categories, and users included
+- **Simulated API Latency** - 300ms delay for realistic UX
+- **In-Memory Storage** - Data resets on page refresh
+
+---
+
+## 👥 Demo Users
+
+| Username | Password | Role | Email |
+|----------|----------|------|-------|
+| `superadmin` | `SuperAdmin123!` | SuperAdmin | superadmin@demo.com |
+| `demo-admin` | `Demo123!` | Admin | admin@demo.com |
+| `demo-user` | `Demo123!` | User | user@demo.com |
+| `john-doe` | `Demo123!` | User | john@demo.com |
+| `jane-smith` | `Demo123!` | User | jane@demo.com |
+
+**Tip:** You can also register new users — they will be stored in memory until page refresh.
+
+---
+
+## 📦 Pre-loaded Demo Data
+
+### Goals (5 samples)
+- Complete React Project (Development)
+- Learn TypeScript (Development)
+- Exercise Daily (Health)
+- Read 12 Books This Year (Personal)
+- Launch Side Project - Completed (Development)
+
+### Categories (5 samples)
+- Development, Health, Personal, Finance, Education
 
 ---
 
@@ -61,21 +96,16 @@ Track personal and professional goals with role-based access control, category o
 
 **Prerequisites:**
 - Node.js 18+ and npm 9+
-- [GoalTracker API](https://github.com/vastriantafyllou/GoalTrackerAPI/blob/main/README.md) running
 
 **Quick Start:**
 
 ```bash
 # Clone repository
-git clone https://github.com/vastriantafyllou/goal-tracker-react.git
-cd goal-tracker-react
+git clone https://github.com/vastriantafyllou/goal-tracker-demo.git
+cd goal-tracker-demo
 
 # Install dependencies
 npm install
-
-# Configure environment
-cp .env.example .env
-# Edit .env and set VITE_API_URL=https://localhost:5001
 
 # Start development server
 npm run dev
@@ -83,21 +113,22 @@ npm run dev
 
 App runs at `http://localhost:5173`
 
-**First Login:**
-- Username: `superadmin`
-- Password: Set in backend User Secrets
+> **Note:** No backend configuration needed! The demo runs with in-memory data.
 
 ---
 
 ## 📁 Environment Configuration
 
-Create a `.env` file:
+The demo mode is enabled by default. To configure:
 
 ```env
-VITE_API_URL=https://localhost:5001
-```
+# Demo mode (default) - no backend required
+VITE_MODE=demo
 
-**Production:** Update `VITE_API_URL` to your deployed backend URL.
+# Production mode - requires backend API
+VITE_MODE=production
+VITE_API_URL=https://your-api-url.com
+```
 
 ---
 
@@ -105,25 +136,27 @@ VITE_API_URL=https://localhost:5001
 
 ```
 src/
+├── apiRouter/
+│   └── apiRouter.ts         # Routes to demo or real APIs
 ├── components/
-│   ├── pages/           # Route pages (HomePage, GoalsPage, etc.)
-│   ├── ui/              # Reusable UI (Button, Input, Dialog, etc.)
-│   ├── layout/          # Header, Footer, Layout
+│   ├── pages/               # Route pages (HomePage, GoalsPage, etc.)
+│   ├── ui/                  # Reusable UI (Button, Input, Dialog, etc.)
+│   ├── layout/              # Header, Footer, Layout
 │   └── ProtectedRoute.tsx
-├── context/             # AuthProvider, ThemeProvider
-├── hooks/               # useAuth, useTheme
-├── schemas/             # Zod validation schemas
-├── services/            # API calls (api.goals.ts, api.users.ts, etc.)
-├── utils/               # Cookie helpers
-├── App.tsx              # Main app with routing
-└── main.tsx             # Entry point
+├── context/                 # AuthProvider, ThemeProvider
+├── demo/                    # Demo mode implementation
+│   ├── demoData.ts          # Mock data storage
+│   ├── demoAuth.ts          # Auth & password recovery simulation
+│   ├── demoGoals.ts         # Goals CRUD
+│   ├── demoCategories.ts    # Categories CRUD
+│   └── demoUsers.ts         # Users CRUD
+├── hooks/                   # useAuth, useTheme
+├── schemas/                 # Zod validation schemas
+├── services/                # Real API implementations
+├── config.ts                # IS_DEMO_MODE flag
+├── App.tsx                  # Main app with routing
+└── main.tsx                 # Entry point
 ```
-
-**Key Folders:**
-- `components/pages/` - Page components
-- `services/` - Backend API integration
-- `schemas/` - Form validation
-- `context/` - Global state (Auth, Theme)
 
 ---
 
@@ -138,6 +171,7 @@ src/
 **Routes:**
 - `/` - Public home page
 - `/login`, `/register` - Authentication
+- `/forgot-password`, `/reset-password` - Password recovery
 - `/goals` - Goal management (authenticated)
 - `/categories` - Category management (authenticated)
 - `/users` - User management (Admin/SuperAdmin only)
@@ -151,37 +185,20 @@ src/
 - Persisted to localStorage
 - Smooth CSS transitions
 
-**Implementation:**
-```typescript
-const { theme, setTheme } = useTheme();
-setTheme(theme === "dark" ? "light" : "dark");
-```
-
 ---
 
-## 🔌 API Communication
+## ⚠️ Demo Mode Limitations
 
-**Backend:** [GoalTracker API](https://github.com/vastriantafyllou/GoalTrackerAPI/tree/main) (.NET 8)
+The following features are simulated or not available in demo mode:
 
-**Service Layer:** All API calls in `src/services/`
-- `api.login.ts` - Authentication
-- `api.users.ts` - User management
-- `api.goals.ts` - Goal CRUD
-- `api.categories.ts` - Category CRUD
-
-**Auth Flow:**
-1. Login → JWT token stored in cookie
-2. Token decoded → User info extracted (ID, username, role)
-3. Protected requests → JWT sent in `Authorization` header
-4. 401 error → Auto-redirect to login
-
-**Example:**
-```typescript
-const token = getCookie("access_token");
-fetch(`${VITE_API_URL}/api/Goals/GetMyGoals`, {
-  headers: { "Authorization": `Bearer ${token}` }
-});
-```
+| Feature | Demo Behavior |
+|---------|---------------|
+| **Data Persistence** | Resets on page refresh |
+| **Password Recovery** | Simulates success (no email sent) |
+| **JWT Validation** | Fake tokens, no real validation |
+| **Email Verification** | Not available |
+| **File Uploads** | Not available |
+| **External APIs** | Not available |
 
 ---
 
@@ -196,14 +213,14 @@ npm run lint     # ESLint
 
 ---
 
-## 🤝 Contributing
+## 🚀 Deployment
 
-Contributions welcome! Please:
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/YourFeature`)
-3. Commit changes (`git commit -m 'Add YourFeature'`)
-4. Push to branch (`git push origin feature/YourFeature`)
-5. Open a Pull Request
+### Deploy Demo Mode (Netlify/Vercel)
+
+1. Set environment variable: `VITE_MODE=demo`
+2. Build: `npm run build`
+3. Deploy `dist/` folder
+4. No backend required!
 
 ---
 
@@ -223,9 +240,10 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ---
 
-## 🔗 Related
+## 🔗 Related Projects
 
-- **Backend API:** [GoalTrackerAPI](https://github.com/vastriantafyllou/GoalTrackerAPI/tree/main)
+- **Full Version (Frontend):** [goal-tracker-react](https://github.com/vastriantafyllou/goal-tracker-react)
+- **Backend API:** [GoalTrackerAPI](https://github.com/vastriantafyllou/GoalTrackerAPI)
 
 ---
 
