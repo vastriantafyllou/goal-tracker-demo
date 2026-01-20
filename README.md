@@ -21,7 +21,7 @@ Track personal and professional goals with role-based access control, category o
 
 [//]: # ([Demo]&#40;./docs/demo.gif&#41;)
 
-**👉 Live Demo:** Coming Soon
+**👉 Live Demo:** https://adorable-naiad-bbc223.netlify.app/
 
 ---
 
