@@ -7,7 +7,9 @@ import {useForm} from "react-hook-form";
 import {toast} from "sonner";
 import {Link, Navigate, useNavigate} from "react-router";
 import {useAuth} from "@/hooks/useAuth.ts";
-import { LogIn, User, Lock, Target } from "lucide-react";
+import { LogIn, User, Lock, Target, Shield } from "lucide-react";
+import { SUPERADMIN_CREDENTIALS } from "@/demo/demoData.ts";
+import { IS_DEMO_MODE } from "@/config.ts";
 
 export default function LoginPage(){
   const navigate = useNavigate();
@@ -16,10 +18,16 @@ export default function LoginPage(){
   const {
     register,
     handleSubmit,
+    setValue,
     formState: {errors, isSubmitting},
   } = useForm <LoginFields>({
     resolver: zodResolver(loginSchema),
   })
+
+  const fillSuperAdminCredentials = () => {
+    setValue("username", SUPERADMIN_CREDENTIALS.username);
+    setValue("password", SUPERADMIN_CREDENTIALS.password);
+  };
 
   if (isAuthenticated) {
     return <Navigate to="/goals" replace />;
@@ -142,12 +150,32 @@ export default function LoginPage(){
           </div>
         </form>
 
-        {/* Optional: Demo credentials hint */}
-        <div className="mt-6 p-4 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
-          <p className="text-xs text-slate-600 dark:text-slate-400 text-center">
-            💡 New user? Create an account to get started!
-          </p>
-        </div>
+        {/* Demo credentials hint */}
+        {IS_DEMO_MODE && (
+          <div className="mt-6 p-4 bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 rounded-lg border border-amber-200 dark:border-amber-700">
+            <div className="text-center space-y-3">
+              <p className="text-sm font-medium text-amber-800 dark:text-amber-200">
+                🎮 Demo Mode
+              </p>
+              <p className="text-xs text-amber-700 dark:text-amber-300">
+                Try the full experience with SuperAdmin access:
+              </p>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={fillSuperAdminCredentials}
+                className="border-amber-400 text-amber-700 hover:bg-amber-100 dark:border-amber-600 dark:text-amber-300 dark:hover:bg-amber-900/30"
+              >
+                <Shield className="w-4 h-4 mr-2" />
+                Use SuperAdmin Credentials
+              </Button>
+              <p className="text-xs text-slate-500 dark:text-slate-400 pt-2 border-t border-amber-200 dark:border-amber-700">
+                Or <Link to="/register" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">create your own account</Link> to test registration!
+              </p>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
