@@ -44,7 +44,7 @@ const Footer = () => {
             
             {/* GitHub Link */}
             <a
-              href="https://github.com/vastriantafyllou/goal-tracker-react"
+              href="https://github.com/vastriantafyllou/goal-tracker-demo"
               target="_blank"
               rel="noopener noreferrer"
               className="text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all hover:underline underline-offset-4 flex items-center gap-1.5"
