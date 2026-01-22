@@ -14,13 +14,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { UserRole, type UserReadOnly, type UserUpdateFields } from "@/schemas/users";
-import { 
-  getAllUsers, 
-  deleteUser, 
-  promoteToAdmin, 
-  demoteToUser,
-  updateUser 
-} from "@/services/api.users";
+import { UsersAPI } from "@/apiRouter/apiRouter";
 import { 
   Users, 
   Shield, 
@@ -82,7 +76,7 @@ export default function UserManagementPage() {
   const loadUsers = async () => {
     setLoading(true);
     try {
-      const result = await getAllUsers(pageNumber, pageSize, searchUsername);
+      const result = await UsersAPI.getAllUsers(pageNumber, pageSize, searchUsername);
       setUsers(result.data);
       setTotalRecords(result.totalRecords);
     } catch (error) {
@@ -105,7 +99,7 @@ export default function UserManagementPage() {
     if (!deleteConfirmUser) return;
     
     try {
-      await deleteUser(deleteConfirmUser.id);
+      await UsersAPI.deleteUser(deleteConfirmUser.id);
       toast.success(`User "${deleteConfirmUser.username}" deleted successfully`);
       setDeleteConfirmUser(null);
       loadUsers();
@@ -129,10 +123,10 @@ export default function UserManagementPage() {
     
     try {
       if (action === 'promote') {
-        await promoteToAdmin(user.id);
+        await UsersAPI.promoteToAdmin(user.id);
         toast.success(`User "${user.username}" promoted to Admin`);
       } else {
-        await demoteToUser(user.id);
+        await UsersAPI.demoteToUser(user.id);
         toast.success(`User "${user.username}" demoted to User`);
       }
       setRoleChangeConfirm(null);
@@ -161,7 +155,7 @@ export default function UserManagementPage() {
     if (!editingUser) return;
 
     try {
-      await updateUser(editingUser.id, editForm);
+      await UsersAPI.updateUser(editingUser.id, editForm);
       toast.success("User updated successfully");
       setEditingUser(null);
       setEditForm({});

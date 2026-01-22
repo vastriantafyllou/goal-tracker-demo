@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Link, useNavigate } from "react-router";
-import { register as registerUser } from "@/services/api.users.ts";
+import { UsersAPI } from "@/apiRouter/apiRouter.ts";
 import { UserPlus, Mail, Lock, User, CheckCircle2 } from "lucide-react";
 import { useState } from "react";
 
@@ -34,7 +34,7 @@ export default function RegisterPage() {
     }
 
     try {
-      await registerUser(data);
+      await UsersAPI.register(data);
       toast.success("🎉 Account created successfully! Please login.");
       navigate("/login");
     } catch (err) {
@@ -234,7 +234,7 @@ export default function RegisterPage() {
                 to="/login" 
                 className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-semibold hover:underline"
               >
-                Sign in here
+                Sign in here!
               </Link>
             </p>
           </div>

@@ -1,5 +1,5 @@
 import {useEffect, useState, useMemo} from "react";
-import {deleteGoal, getGoals} from "@/services/api.goals.ts";
+import {GoalsAPI} from "@/apiRouter/apiRouter.ts";
 import type {Goal} from "@/schemas/goal.ts";
 import {Button} from "@/components/ui/button.tsx";
 import {
@@ -30,7 +30,7 @@ const GoalsPage = () => {
 
   const loadGoals = async () => {
     try {
-      const data = await getGoals();
+      const data = await GoalsAPI.getGoals();
       setGoals(data);
     } catch (error) {
       toast.error(
@@ -49,7 +49,7 @@ const GoalsPage = () => {
     if (!deleteConfirmGoal) return;
     
     try {
-      await deleteGoal(deleteConfirmGoal.id);
+      await GoalsAPI.deleteGoal(deleteConfirmGoal.id);
       toast.success("Goal deleted successfully");
       setDeleteConfirmGoal(null);
       // Refresh the list

@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/dialog";
 import type { Category, CategoryCreateFields, CategoryUpdateFields } from "@/schemas/category";
 import { categoryCreateSchema, categoryUpdateSchema } from "@/schemas/category";
-import { getAllCategories, createCategory, getCategory, updateCategory, deleteCategory } from "@/services/api.categories";
+import { CategoriesAPI } from "@/apiRouter/apiRouter";
 
 const CategoriesPage = () => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -54,7 +54,7 @@ const CategoriesPage = () => {
   const loadCategories = async () => {
     try {
       setLoading(true);
-      const data = await getAllCategories();
+      const data = await CategoriesAPI.getAllCategories();
       setCategories(data);
     } catch (error) {
       toast.error(
@@ -73,7 +73,7 @@ const CategoriesPage = () => {
   const handleCreate = async (data: CategoryCreateFields) => {
     try {
       setIsSubmitting(true);
-      await createCategory(data);
+      await CategoriesAPI.createCategory(data);
       toast.success("Category created successfully!");
       setIsCreateDialogOpen(false);
       createForm.reset();
@@ -92,7 +92,7 @@ const CategoriesPage = () => {
     try {
       setIsSubmitting(true);
       // Load full category data
-      const fullCategory = await getCategory(category.id);
+      const fullCategory = await CategoriesAPI.getCategory(category.id);
       setEditingCategory(fullCategory);
       editForm.reset({
         name: fullCategory.name,
@@ -113,7 +113,7 @@ const CategoriesPage = () => {
 
     try {
       setIsSubmitting(true);
-      await updateCategory(editingCategory.id, data);
+      await CategoriesAPI.updateCategory(editingCategory.id, data);
       toast.success("Category updated successfully!");
       setIsEditDialogOpen(false);
       setEditingCategory(null);
@@ -137,7 +137,7 @@ const CategoriesPage = () => {
     if (!deleteConfirmCategory) return;
     
     try {
-      await deleteCategory(deleteConfirmCategory.id);
+      await CategoriesAPI.deleteCategory(deleteConfirmCategory.id);
       toast.success("Category deleted successfully!");
       setDeleteConfirmCategory(null);
       loadCategories();

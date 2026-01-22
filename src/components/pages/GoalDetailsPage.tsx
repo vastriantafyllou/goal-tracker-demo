@@ -6,10 +6,10 @@ import {Textarea} from "@/components/ui/textarea.tsx";
 import {Label} from "@/components/ui/label"
 import {Button} from "@/components/ui/button.tsx";
 import {useEffect, useState} from "react";
-import {createGoal, getGoal, updateGoal} from "@/services/api.goals.ts";
+import {GoalsAPI} from "@/apiRouter/apiRouter.ts";
 import {useNavigate, useParams} from "react-router";
 import {toast} from "sonner";
-import {getAllCategories, createCategory} from "@/services/api.categories.ts";
+import {CategoriesAPI} from "@/apiRouter/apiRouter.ts";
 import type {Category} from "@/schemas/category.ts";
 import {Plus, FolderPlus, Target, Edit} from "lucide-react";
 
@@ -41,7 +41,7 @@ const GoalDetailsPage = () => {
 
   // Load categories for dropdown (categories are optional)
   useEffect(() => {
-    getAllCategories()
+    CategoriesAPI.getAllCategories()
       .then((data) => {
         setCategories(data);
       })
@@ -57,7 +57,7 @@ const GoalDetailsPage = () => {
   useEffect(() => {
     if (!isEdit || !goalId) return;
     
-    getGoal(Number(goalId))
+    GoalsAPI.getGoal(Number(goalId))
       .then((data) => {
         // Populate form with existing goal data
         const values: GoalUpdateFields = {
@@ -80,7 +80,7 @@ const GoalDetailsPage = () => {
     
     setCreatingCategory(true);
     try {
-      const newCategory = await createCategory({ name: newCategoryName.trim() });
+      const newCategory = await CategoriesAPI.createCategory({ name: newCategoryName.trim() });
       setCategories([...categories, newCategory]);
       setValue("goalCategoryId", newCategory.id);
       toast.success(`✅ Category "${newCategory.name}" created!`);
@@ -98,10 +98,10 @@ const GoalDetailsPage = () => {
   const onSubmit = async (data: GoalCreateFields | GoalUpdateFields) => {
     try {
       if (isEdit && goalId) {
-        await updateGoal(Number(goalId), data as GoalUpdateFields);
+        await GoalsAPI.updateGoal(Number(goalId), data as GoalUpdateFields);
         toast.success("Goal updated successfully");
       } else {
-        await createGoal(data as GoalCreateFields);
+        await GoalsAPI.createGoal(data as GoalCreateFields);
         toast.success("Goal created successfully");
       }
       navigate("/goals");
