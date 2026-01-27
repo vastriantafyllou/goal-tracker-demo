@@ -110,6 +110,25 @@ const HomePage = () => {
             </div>
           ))}
         </div>
+
+        {/* Demo Hint */}
+        {!isAuthenticated && (
+          <div className="mt-10 px-6 py-4 bg-gradient-to-r from-blue-50 via-sky-50 to-cyan-50 dark:from-blue-950/40 dark:via-sky-950/40 dark:to-cyan-950/40 rounded-2xl border border-blue-100 dark:border-blue-800/50 shadow-sm max-w-md mx-auto backdrop-blur-sm">
+            <div className="flex items-center justify-center gap-3">
+              <span className="text-2xl animate-wave">👋</span>
+              <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300">
+                To explore the demo, click{" "}
+                <button 
+                  onClick={() => navigate("/login")}
+                  className="inline-flex items-center gap-1 font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 underline decoration-2 underline-offset-2 decoration-blue-300 dark:decoration-blue-600 hover:decoration-blue-500 transition-all cursor-pointer"
+                >
+                  <LogIn className="w-4 h-4" />
+                  Sign In
+                </button>
+              </p>
+            </div>
+          </div>
+        )}
       </div>
       
       {/* Subtle Scroll Indicator - Visual anchor */}
